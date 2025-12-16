@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mundo do Saber - Democratizando o acesso à educação através de vídeos, workshops e palestras gratuitas">
+    <title>Mundo do Saber - Educação para Todos</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>Mundo do Saber</h1>
+            </div>
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#videos">Vídeos</a></li>
+                <li><a href="#dicas">Dicas</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="admin.html">Admin</a></li>
+                <li class="theme-menu-item">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+                        <span id="themeIcon">☀️</span>
+                        <span class="theme-label">Modo Escuro</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="container">
+            <h2>Democratizando o Acesso à Educação</h2>
+            <p>Levando conhecimento de forma fácil, rápida e gratuita para quem mais precisa</p>
+            <a href="#videos" class="btn-primary">Explorar Conteúdos</a>
+        </div>
+    </section>
+
+    <!-- Sobre Section -->
+    <section class="about" id="sobre">
+        <div class="container">
+            <h2>Quem Somos</h2>
+            <div class="about-content">
+                <p>O <strong>Mundo do Saber</strong> nasceu da missão de suprir a dor da falta de informação e educação que afeta milhões de pessoas pelo mundo.</p>
+                <p>Acreditamos que o conhecimento é um direito de todos, não um privilégio. Por isso, oferecemos gratuitamente vídeo-aulas, workshops, palestras e dicas de vida para pessoas que não têm acesso à educação tradicional.</p>
+                <p>Somos uma iniciativa <strong>100% sem fins lucrativos</strong>, movida pela vontade de transformar vidas através do conhecimento.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vídeos e Posts Section -->
+    <section class="videos" id="videos">
+        <div class="container">
+            <h2>Vídeo-Aulas</h2>
+            <p class="section-description">Aprenda no seu ritmo com nossos conteúdos educacionais</p>
+            <div class="content-grid" id="videosGrid">
+                <!-- Video posts serão inseridos aqui via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Dicas de Vida Section -->
+    <section class="tips" id="dicas">
+        <div class="container">
+            <h2>Dicas de Vida</h2>
+            <p class="section-description">Orientações práticas para o dia a dia</p>
+            <div class="tips-grid" id="tipsGrid">
+                <!-- Tips serão inseridos aqui via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Mundo do Saber - Educação sem fins lucrativos</p>
+            <p>Compartilhe conhecimento, transforme vidas</p>
+        </div>
+    </footer>
+
+    <script src="js/script-server.js"></script>
+</body>
+</html>

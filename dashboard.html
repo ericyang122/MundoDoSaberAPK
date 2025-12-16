@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - Mundo do Saber</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="dashboard-body">
+    <!-- Navbar Admin -->
+    <nav class="admin-navbar">
+        <div class="admin-nav-container">
+            <h1>📚 Painel Administrativo</h1>
+            <button id="logoutBtn" class="btn-logout">Sair</button>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li class="menu-item active" data-section="add-content">
+                    <span>➕</span> Adicionar Conteúdo
+                </li>
+                <li class="menu-item" data-section="manage-content">
+                    <span>📋</span> Gerenciar Conteúdos
+                </li>
+                <li class="menu-item" data-section="preview">
+                    <span>👁️</span> Pré-visualizar
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Seção: Adicionar Conteúdo -->
+            <section id="add-content" class="dashboard-section active">
+                <h2>Adicionar Novo Conteúdo</h2>
+
+                <form id="contentForm" class="content-form" enctype="multipart/form-data">
+                    <!-- Informações Básicas -->
+                    <div class="form-section">
+                        <h3>Informações Básicas</h3>
+
+                        <div class="form-group">
+                            <label for="contentTitle">Título do Conteúdo*</label>
+                            <input
+                                type="text"
+                                id="contentTitle"
+                                placeholder="Ex: Novembro Negro"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contentSubtitle">Subtítulo*</label>
+                            <input
+                                type="text"
+                                id="contentSubtitle"
+                                placeholder="Ex: Consciência, História e Resistência"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contentDescription">Descrição (para o card)*</label>
+                            <textarea
+                                id="contentDescription"
+                                rows="3"
+                                placeholder="Breve descrição que aparecerá no card na página principal"
+                                required
+                            ></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contentIcon">Ícone (emoji)*</label>
+                            <input
+                                type="text"
+                                id="contentIcon"
+                                placeholder="Ex: ✊🏿 (cole um emoji)"
+                                maxlength="2"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cardImage">Imagem do Card (opcional)</label>
+                            <div class="file-upload">
+                                <input
+                                    type="file"
+                                    id="cardImage"
+                                    accept="image/png,image/jpeg,image/jpg,image/webp"
+                                >
+                                <div class="file-upload-label">
+                                    <span>🖼️</span>
+                                    <p>Clique ou arraste uma imagem</p>
+                                    <small>PNG, JPG ou WebP (máx 2MB)</small>
+                                </div>
+                            </div>
+                            <div id="imagePreview" style="display: none; margin-top: 1rem;">
+                                <img style="max-width: 100%; border-radius: 8px;" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fileName">Nome do Arquivo (sem espaços)*</label>
+                            <input
+                                type="text"
+                                id="fileName"
+                                placeholder="Ex: novembro-negro"
+                                pattern="[a-z0-9-]+"
+                                required
+                            >
+                            <small>Use apenas letras minúsculas, números e hífens</small>
+                        </div>
+                    </div>
+
+                    <!-- Upload de Vídeo -->
+                    <div class="form-section">
+                        <h3>Vídeo</h3>
+
+                        <div class="form-group">
+                            <label for="videoFile">Upload de Vídeo*</label>
+                            <div class="file-upload">
+                                <input
+                                    type="file"
+                                    id="videoFile"
+                                    accept="video/mp4,video/webm"
+                                    required
+                                >
+                                <div class="file-upload-label">
+                                    <span>📹</span>
+                                    <p>Arraste o vídeo aqui ou clique para selecionar</p>
+                                    <small>Formatos aceitos: MP4, WebM</small>
+                                </div>
+                            </div>
+                            <div id="videoPreview" class="video-preview" style="display: none;">
+                                <video controls style="max-width: 100%; border-radius: 8px;"></video>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Posts -->
+                    <div class="form-section">
+                        <h3>Posts Educacionais</h3>
+                        <p class="section-description">Adicione de 3 a 4 posts com conteúdo educacional</p>
+
+                        <div id="postsContainer">
+                            <!-- Post 1 -->
+                            <div class="post-form" data-post="1">
+                                <h4>Post 1</h4>
+
+                                <div class="form-group">
+                                    <label>Título do Post*</label>
+                                    <input
+                                        type="text"
+                                        class="post-title"
+                                        placeholder="Ex: O Significado do Novembro Negro"
+                                        required
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Identificação (data/módulo)</label>
+                                    <input
+                                        type="text"
+                                        class="post-date"
+                                        placeholder="Ex: 20 de Novembro de 2024 ou Módulo 1"
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Conteúdo do Post*</label>
+                                    <textarea
+                                        class="post-content"
+                                        rows="10"
+                                        placeholder="Digite o conteúdo educacional. Use HTML para formatação:
+&#10;Para parágrafo: <p>Texto</p>
+Para título: <h4>Título</h4>
+Para lista: <ul><li>Item</li></ul>
+Para negrito: <strong>texto</strong>"
+                                        required
+                                    ></textarea>
+                                    <small>Você pode usar HTML básico para formatação</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" id="addPostBtn" class="btn-add-post">
+                            + Adicionar Mais um Post
+                        </button>
+                    </div>
+
+                    <!-- Botões de Ação -->
+                    <div class="form-actions">
+                        <button type="button" class="btn-preview" id="previewBtn">
+                            👁️ Pré-visualizar
+                        </button>
+                        <button type="submit" class="btn-submit">
+                            ✅ Publicar Conteúdo
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Seção: Gerenciar Conteúdos -->
+            <section id="manage-content" class="dashboard-section">
+                <h2>Conteúdos Publicados</h2>
+
+                <div id="contentList" class="content-list">
+                    <!-- Lista de conteúdos será carregada aqui -->
+                </div>
+            </section>
+
+            <!-- Seção: Pré-visualização -->
+            <section id="preview" class="dashboard-section">
+                <h2>Pré-visualização</h2>
+
+                <div id="previewContainer" class="preview-container">
+                    <p class="empty-state">Preencha o formulário e clique em "Pré-visualizar" para ver como ficará o conteúdo.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal de Sucesso -->
+    <div id="successModal" class="modal" style="display: none;">
+        <div class="modal-content success">
+            <h3>✅ Sucesso!</h3>
+            <p>Conteúdo publicado com sucesso!</p>
+            <button class="btn-primary" onclick="closeSuccessModal()">OK</button>
+        </div>
+    </div>
+
+    <script src="js/admin-server.js"></script>
+</body>
+</html>
