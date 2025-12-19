@@ -146,6 +146,18 @@ function removePost(button) {
     });
 }
 
+// Fazer file inputs funcionarem clicando na label
+document.querySelectorAll('.file-upload-label').forEach(label => {
+    label.addEventListener('click', function(e) {
+        e.preventDefault();
+        const fileUpload = this.closest('.file-upload');
+        const input = fileUpload.querySelector('input[type="file"]');
+        if (input) {
+            input.click();
+        }
+    });
+});
+
 // Preview da Imagem do Card
 document.getElementById('cardImage').addEventListener('change', function(e) {
     const file = e.target.files[0];
@@ -512,28 +524,47 @@ async function editContent(contentId) {
         document.getElementById('contentIcon').value = content.icon;
         document.getElementById('fileName').value = content.fileName;
 
-        // Limpar posts existentes
+        // Limpar posts adicionais (manter apenas o primeiro)
         const postsContainer = document.getElementById('postsContainer');
-        postsContainer.innerHTML = '';
-        postCount = 0;
+        const allPostForms = postsContainer.querySelectorAll('.post-form');
 
-        // Recriar posts
+        // Remover todos exceto o primeiro
+        allPostForms.forEach((postForm, index) => {
+            if (index > 0) {
+                postForm.remove();
+            }
+        });
+
+        // Resetar contador para 1 (já existe o Post 1 no HTML)
+        postCount = 1;
+
+        // Preencher posts
         if (content.posts && content.posts.length > 0) {
-            content.posts.forEach((post, index) => {
-                if (index > 0) {
-                    document.getElementById('addPostBtn').click();
-                }
+            // Preencher o primeiro post (que já existe no HTML)
+            const firstPostForm = postsContainer.querySelector('.post-form');
+            if (firstPostForm && content.posts[0]) {
+                firstPostForm.querySelector('.post-title').value = content.posts[0].title || '';
+                firstPostForm.querySelector('.post-date').value = content.posts[0].date || '';
+                firstPostForm.querySelector('.post-content').value = content.posts[0].content || '';
+            }
 
-                setTimeout(() => {
-                    const postForms = document.querySelectorAll('.post-form');
-                    const postForm = postForms[index];
-                    if (postForm) {
-                        postForm.querySelector('.post-title').value = post.title;
-                        postForm.querySelector('.post-date').value = post.date || '';
-                        postForm.querySelector('.post-content').value = post.content;
-                    }
-                }, 100 * (index + 1));
-            });
+            // Adicionar posts adicionais (do segundo em diante)
+            for (let i = 1; i < content.posts.length; i++) {
+                // Clicar no botão para adicionar novo post
+                document.getElementById('addPostBtn').click();
+
+                // Aguardar um pouco para o DOM atualizar
+                await new Promise(resolve => setTimeout(resolve, 50));
+
+                // Preencher o post recém-criado
+                const postForms = postsContainer.querySelectorAll('.post-form');
+                const postForm = postForms[i];
+                if (postForm && content.posts[i]) {
+                    postForm.querySelector('.post-title').value = content.posts[i].title || '';
+                    postForm.querySelector('.post-date').value = content.posts[i].date || '';
+                    postForm.querySelector('.post-content').value = content.posts[i].content || '';
+                }
+            }
         }
 
         // Mudar texto do botão de submit
