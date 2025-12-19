@@ -12,7 +12,13 @@
     <nav class="admin-navbar">
         <div class="admin-nav-container">
             <h1>📚 Painel Administrativo</h1>
-            <button id="logoutBtn" class="btn-logout">Sair</button>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <button id="themeToggle" class="theme-toggle-btn" aria-label="Alternar tema">
+                    <span id="themeIcon">☀️</span>
+                    <span id="themeLabel">Dark</span>
+                </button>
+                <button id="logoutBtn" class="btn-logout">Sair</button>
+            </div>
         </div>
     </nav>
 

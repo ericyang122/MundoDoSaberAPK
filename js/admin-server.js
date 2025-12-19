@@ -5,12 +5,16 @@ const SERVER_URL = 'http://localhost:3001';
 // Dark Mode Toggle
 const themeToggle = document.getElementById('themeToggle');
 const themeIcon = document.getElementById('themeIcon');
+const themeLabel = document.getElementById('themeLabel');
 
 if (themeToggle) {
     // Check for saved theme preference or default to 'light'
     const currentTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', currentTheme);
     themeIcon.textContent = currentTheme === 'dark' ? '🌙' : '☀️';
+    if (themeLabel) {
+        themeLabel.textContent = currentTheme === 'dark' ? 'Light' : 'Dark';
+    }
 
     // Toggle theme on button click
     themeToggle.addEventListener('click', () => {
@@ -19,14 +23,61 @@ if (themeToggle) {
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
         themeIcon.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+        if (themeLabel) {
+            themeLabel.textContent = newTheme === 'dark' ? 'Light' : 'Dark';
+        }
     });
 }
+
+// Verificar se está logado ao carregar a página
+if (localStorage.getItem('adminLoggedIn') !== 'true') {
+    window.location.href = 'admin.html';
+}
+
+// Adicionar flag de sessão única - se sair, não pode voltar sem login
+window.addEventListener('focus', () => {
+    // Verificar novamente quando a janela recebe foco
+    if (localStorage.getItem('adminLoggedIn') !== 'true') {
+        window.location.href = 'admin.html';
+    }
+});
 
 // Botão Sair
 document.getElementById('logoutBtn').addEventListener('click', () => {
     if (confirm('Tem certeza que deseja sair?')) {
         localStorage.removeItem('adminLoggedIn');
+        localStorage.removeItem('adminUsername');
         window.location.href = 'admin.html';
+    }
+});
+
+// Interceptar todos os cliques em links e botões para fazer logout automático
+document.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    const button = e.target.closest('button');
+
+    // Verificar cliques em links
+    if (link && link.href) {
+        const url = new URL(link.href);
+        // Se está navegando para fora da área admin (index.html, outras páginas)
+        if (url.pathname.includes('index.html') ||
+            url.pathname.includes('conteudos/') ||
+            (!url.pathname.includes('dashboard.html') &&
+             !url.pathname.includes('admin.html') &&
+             url.pathname !== '/' &&
+             url.pathname !== '')) {
+            localStorage.removeItem('adminLoggedIn');
+            localStorage.removeItem('adminUsername');
+        }
+    }
+
+    // Verificar cliques em botões que abrem páginas externas
+    if (button && button.onclick) {
+        const onclickStr = button.onclick.toString();
+        if (onclickStr.includes('index.html') || onclickStr.includes('window.open')) {
+            localStorage.removeItem('adminLoggedIn');
+            localStorage.removeItem('adminUsername');
+        }
     }
 });
 
@@ -423,7 +474,10 @@ function showSuccessInstructions(content, isEditing) {
 
                 Não precisa fazer mais nada!
             </p>
-            <button onclick="closeSuccessModal(); window.location.href='../index.html';" class="btn-submit">
+            <button onclick="closeSuccessModal();" class="btn-submit">
+                OK
+            </button>
+            <button onclick="logoutAndOpenIndex();" class="btn-preview" style="margin-left: 1rem;">
                 Ver na Página Principal
             </button>
         </div>
@@ -528,4 +582,12 @@ function cancelEdit() {
     }
 
     postCount = 1;
+}
+
+// Função para fazer logout e abrir a página principal
+function logoutAndOpenIndex() {
+    closeSuccessModal();
+    localStorage.removeItem('adminLoggedIn');
+    localStorage.removeItem('adminUsername');
+    window.open('../index.html', '_blank');
 }
